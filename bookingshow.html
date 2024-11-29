@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./icon.jpeg" type="image/png" sizes="16x16">
+    <title>Theater Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 100px;
+            left: 150px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .seats-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .seat {
+            width: 40px;
+            height: 40px;
+            background-color: #3e8e41;
+            border: 1px solid #2e6a2f;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+        }
+        .seat.booked {
+            background-color: #d9534f;
+            cursor: not-allowed;
+        }
+        .seat.selected {
+            background-color: #f0ad4e;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="text"], input[type="email"] {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            width: 100%;
+        }
+        button {
+            background-color: #5bc0de;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #31b0d5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Theater Seat Booking</h1>
+
+ 
+    <div class="seats-container">
+        <div class="seat" onclick="selectSeat(this)">1</div>
+        <div class="seat" onclick="selectSeat(this)">2</div>
+        <div class="seat booked">3</div>
+        <div class="seat" onclick="selectSeat(this)">4</div>
+        <div class="seat" onclick="selectSeat(this)">5</div>
+        <div class="seat" onclick="selectSeat(this)">6</div>
+        <div class="seat booked">7</div>
+        <div class="seat" onclick="selectSeat(this)">8</div>
+        <div class="seat" onclick="selectSeat(this)">9</div>
+
+    </div>
+
+   
+    <form id="booking-form">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="phone no">Phone no:</label>
+        <input type="number" id="phone no" name="phone no" required>
+        
+        <label for="moviename">Movie name:</label>
+        <input type="text" id="movie name" name="movie name" reqiured>
+
+        <label for="time">Timing</label>
+        <select id="timing">
+            <option value="10am">10am</option>
+            <option value="1pm">1pm</option>
+            <option value="4pm">4pm</option>
+            <option value="8pm">8pm</option>
+          </select>
+
+        <label for="seats">Seats Selected:</label>
+        <input type="text" id="seats" name="seats" readonly>
+
+        <button type="submit">Book Tickets</button>
+    </form>
+</div>
+
+<script>
+
+let selectedSeats = [];
+
+function selectSeat(seatElement) {
+    if (seatElement.classList.contains('booked')) {
+        alert('Sorry, this seat is already booked.');
+        return;
+    }
+
+    seatElement.classList.toggle('selected');
+
+    const seatNumber = seatElement.textContent;
+
+   
+    if (selectedSeats.includes(seatNumber)) {
+        selectedSeats = selectedSeats.filter(seat => seat !== seatNumber);
+    } else {
+        selectedSeats.push(seatNumber);
+    }
+
+  
+    document.getElementById('seats').value = selectedSeats.join(', ');
+}
+
+
+document.getElementById('booking-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    if (selectedSeats.length === 0) {
+        alert('Please select at least one seat.');
+        return;
+    }
+
+ 
+    alert('Booking Successful!\n' + 
+          'Name: ' + document.getElementById('name').value + '\n' +
+          'Phone no: ' + document.getElementById('phone no').value + '\n' +
+          'Movie name: ' + document.getElementById('movie name').value + '\n' +
+          'Timing:' + document.getElementById('timing').value + '\n' +
+          'Seats: ' + selectedSeats.join(', '));
+});
+function reloadPage(event) {
+    event.preventDefault();
+    setTimeout(function() {
+        location.reload(); 
+      }, 500);  
+    }
+</script>
+
+</body>
+</html>
